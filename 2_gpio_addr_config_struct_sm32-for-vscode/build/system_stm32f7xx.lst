@@ -1,0 +1,570 @@
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"system_stm32f7xx.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Src/system_stm32f7xx.c"
+  19              		.section	.text.SystemInit,"ax",%progbits
+  20              		.align	1
+  21              		.global	SystemInit
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	SystemInit:
+  27              	.LFB141:
+   1:Src/system_stm32f7xx.c **** /**
+   2:Src/system_stm32f7xx.c ****   ******************************************************************************
+   3:Src/system_stm32f7xx.c ****   * @file    system_stm32f7xx.c
+   4:Src/system_stm32f7xx.c ****   * @author  MCD Application Team
+   5:Src/system_stm32f7xx.c ****   * @brief   CMSIS Cortex-M7 Device Peripheral Access Layer System Source File.
+   6:Src/system_stm32f7xx.c ****   *
+   7:Src/system_stm32f7xx.c ****   *   This file provides two functions and one global variable to be called from 
+   8:Src/system_stm32f7xx.c ****   *   user application:
+   9:Src/system_stm32f7xx.c ****   *      - SystemInit(): This function is called at startup just after reset and 
+  10:Src/system_stm32f7xx.c ****   *                      before branch to main program. This call is made inside
+  11:Src/system_stm32f7xx.c ****   *                      the "startup_stm32f7xx.s" file.
+  12:Src/system_stm32f7xx.c ****   *
+  13:Src/system_stm32f7xx.c ****   *      - SystemCoreClock variable: Contains the core clock (HCLK), it can be used
+  14:Src/system_stm32f7xx.c ****   *                                  by the user application to setup the SysTick 
+  15:Src/system_stm32f7xx.c ****   *                                  timer or configure other parameters.
+  16:Src/system_stm32f7xx.c ****   *                                     
+  17:Src/system_stm32f7xx.c ****   *      - SystemCoreClockUpdate(): Updates the variable SystemCoreClock and must
+  18:Src/system_stm32f7xx.c ****   *                                 be called whenever the core clock is changed
+  19:Src/system_stm32f7xx.c ****   *                                 during program execution.
+  20:Src/system_stm32f7xx.c ****   *
+  21:Src/system_stm32f7xx.c ****   *
+  22:Src/system_stm32f7xx.c ****   ******************************************************************************
+  23:Src/system_stm32f7xx.c ****   * @attention
+  24:Src/system_stm32f7xx.c ****   *
+  25:Src/system_stm32f7xx.c ****   * Copyright (c) 2016 STMicroelectronics.
+  26:Src/system_stm32f7xx.c ****   * All rights reserved.
+  27:Src/system_stm32f7xx.c ****   *
+  28:Src/system_stm32f7xx.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  29:Src/system_stm32f7xx.c ****   * in the root directory of this software component.
+  30:Src/system_stm32f7xx.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  31:Src/system_stm32f7xx.c ****   *
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 2
+
+
+  32:Src/system_stm32f7xx.c ****   ******************************************************************************
+  33:Src/system_stm32f7xx.c ****   */
+  34:Src/system_stm32f7xx.c **** 
+  35:Src/system_stm32f7xx.c **** /** @addtogroup CMSIS
+  36:Src/system_stm32f7xx.c ****   * @{
+  37:Src/system_stm32f7xx.c ****   */
+  38:Src/system_stm32f7xx.c **** 
+  39:Src/system_stm32f7xx.c **** /** @addtogroup stm32f7xx_system
+  40:Src/system_stm32f7xx.c ****   * @{
+  41:Src/system_stm32f7xx.c ****   */  
+  42:Src/system_stm32f7xx.c ****   
+  43:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_Includes
+  44:Src/system_stm32f7xx.c ****   * @{
+  45:Src/system_stm32f7xx.c ****   */
+  46:Src/system_stm32f7xx.c **** 
+  47:Src/system_stm32f7xx.c **** #include "stm32f7xx.h"
+  48:Src/system_stm32f7xx.c **** 
+  49:Src/system_stm32f7xx.c **** #if !defined  (HSE_VALUE) 
+  50:Src/system_stm32f7xx.c ****   #define HSE_VALUE    ((uint32_t)25000000) /*!< Default value of the External oscillator in Hz */
+  51:Src/system_stm32f7xx.c **** #endif /* HSE_VALUE */
+  52:Src/system_stm32f7xx.c **** 
+  53:Src/system_stm32f7xx.c **** #if !defined  (HSI_VALUE)
+  54:Src/system_stm32f7xx.c ****   #define HSI_VALUE    ((uint32_t)16000000) /*!< Value of the Internal oscillator in Hz*/
+  55:Src/system_stm32f7xx.c **** #endif /* HSI_VALUE */
+  56:Src/system_stm32f7xx.c **** 
+  57:Src/system_stm32f7xx.c **** /**
+  58:Src/system_stm32f7xx.c ****   * @}
+  59:Src/system_stm32f7xx.c ****   */
+  60:Src/system_stm32f7xx.c **** 
+  61:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_TypesDefinitions
+  62:Src/system_stm32f7xx.c ****   * @{
+  63:Src/system_stm32f7xx.c ****   */
+  64:Src/system_stm32f7xx.c **** 
+  65:Src/system_stm32f7xx.c **** /**
+  66:Src/system_stm32f7xx.c ****   * @}
+  67:Src/system_stm32f7xx.c ****   */
+  68:Src/system_stm32f7xx.c **** 
+  69:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_Defines
+  70:Src/system_stm32f7xx.c ****   * @{
+  71:Src/system_stm32f7xx.c ****   */
+  72:Src/system_stm32f7xx.c **** 
+  73:Src/system_stm32f7xx.c **** /************************* Miscellaneous Configuration ************************/
+  74:Src/system_stm32f7xx.c **** 
+  75:Src/system_stm32f7xx.c **** /* Note: Following vector table addresses must be defined in line with linker
+  76:Src/system_stm32f7xx.c ****          configuration. */
+  77:Src/system_stm32f7xx.c **** /*!< Uncomment the following line if you need to relocate the vector table
+  78:Src/system_stm32f7xx.c ****      anywhere in Flash or Sram, else the vector table is kept at the automatic
+  79:Src/system_stm32f7xx.c ****      remap of boot address selected */
+  80:Src/system_stm32f7xx.c **** /* #define USER_VECT_TAB_ADDRESS */
+  81:Src/system_stm32f7xx.c **** 
+  82:Src/system_stm32f7xx.c **** #if defined(USER_VECT_TAB_ADDRESS)
+  83:Src/system_stm32f7xx.c **** /*!< Uncomment the following line if you need to relocate your vector Table
+  84:Src/system_stm32f7xx.c ****      in Sram else user remap will be done in Flash. */
+  85:Src/system_stm32f7xx.c **** /* #define VECT_TAB_SRAM */
+  86:Src/system_stm32f7xx.c **** #if defined(VECT_TAB_SRAM)
+  87:Src/system_stm32f7xx.c **** #define VECT_TAB_BASE_ADDRESS   RAMDTCM_BASE    /*!< Vector Table base address field.
+  88:Src/system_stm32f7xx.c ****                                                      This value must be a multiple of 0x200. */
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 3
+
+
+  89:Src/system_stm32f7xx.c **** #define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
+  90:Src/system_stm32f7xx.c ****                                                      This value must be a multiple of 0x200. */
+  91:Src/system_stm32f7xx.c **** #else
+  92:Src/system_stm32f7xx.c **** #define VECT_TAB_BASE_ADDRESS   FLASH_BASE      /*!< Vector Table base address field.
+  93:Src/system_stm32f7xx.c ****                                                      This value must be a multiple of 0x200. */
+  94:Src/system_stm32f7xx.c **** #define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
+  95:Src/system_stm32f7xx.c ****                                                      This value must be a multiple of 0x200. */
+  96:Src/system_stm32f7xx.c **** #endif /* VECT_TAB_SRAM */
+  97:Src/system_stm32f7xx.c **** #endif /* USER_VECT_TAB_ADDRESS */
+  98:Src/system_stm32f7xx.c **** /******************************************************************************/
+  99:Src/system_stm32f7xx.c **** 
+ 100:Src/system_stm32f7xx.c **** /**
+ 101:Src/system_stm32f7xx.c ****   * @}
+ 102:Src/system_stm32f7xx.c ****   */
+ 103:Src/system_stm32f7xx.c **** 
+ 104:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_Macros
+ 105:Src/system_stm32f7xx.c ****   * @{
+ 106:Src/system_stm32f7xx.c ****   */
+ 107:Src/system_stm32f7xx.c **** 
+ 108:Src/system_stm32f7xx.c **** /**
+ 109:Src/system_stm32f7xx.c ****   * @}
+ 110:Src/system_stm32f7xx.c ****   */
+ 111:Src/system_stm32f7xx.c **** 
+ 112:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_Variables
+ 113:Src/system_stm32f7xx.c ****   * @{
+ 114:Src/system_stm32f7xx.c ****   */
+ 115:Src/system_stm32f7xx.c **** 
+ 116:Src/system_stm32f7xx.c ****   /* This variable is updated in three ways:
+ 117:Src/system_stm32f7xx.c ****       1) by calling CMSIS function SystemCoreClockUpdate()
+ 118:Src/system_stm32f7xx.c ****       2) by calling HAL API function HAL_RCC_GetHCLKFreq()
+ 119:Src/system_stm32f7xx.c ****       3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency 
+ 120:Src/system_stm32f7xx.c ****          Note: If you use this function to configure the system clock; then there
+ 121:Src/system_stm32f7xx.c ****                is no need to call the 2 first functions listed above, since SystemCoreClock
+ 122:Src/system_stm32f7xx.c ****                variable is updated automatically.
+ 123:Src/system_stm32f7xx.c ****   */
+ 124:Src/system_stm32f7xx.c ****   uint32_t SystemCoreClock = 16000000;
+ 125:Src/system_stm32f7xx.c ****   const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+ 126:Src/system_stm32f7xx.c ****   const uint8_t APBPrescTable[8] = {0, 0, 0, 0, 1, 2, 3, 4};
+ 127:Src/system_stm32f7xx.c **** 
+ 128:Src/system_stm32f7xx.c **** /**
+ 129:Src/system_stm32f7xx.c ****   * @}
+ 130:Src/system_stm32f7xx.c ****   */
+ 131:Src/system_stm32f7xx.c **** 
+ 132:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_FunctionPrototypes
+ 133:Src/system_stm32f7xx.c ****   * @{
+ 134:Src/system_stm32f7xx.c ****   */
+ 135:Src/system_stm32f7xx.c **** 
+ 136:Src/system_stm32f7xx.c **** /**
+ 137:Src/system_stm32f7xx.c ****   * @}
+ 138:Src/system_stm32f7xx.c ****   */
+ 139:Src/system_stm32f7xx.c **** 
+ 140:Src/system_stm32f7xx.c **** /** @addtogroup STM32F7xx_System_Private_Functions
+ 141:Src/system_stm32f7xx.c ****   * @{
+ 142:Src/system_stm32f7xx.c ****   */
+ 143:Src/system_stm32f7xx.c **** 
+ 144:Src/system_stm32f7xx.c **** /**
+ 145:Src/system_stm32f7xx.c ****   * @brief  Setup the microcontroller system
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 4
+
+
+ 146:Src/system_stm32f7xx.c ****   *         Initialize the Embedded Flash Interface, the PLL and update the 
+ 147:Src/system_stm32f7xx.c ****   *         SystemFrequency variable.
+ 148:Src/system_stm32f7xx.c ****   * @param  None
+ 149:Src/system_stm32f7xx.c ****   * @retval None
+ 150:Src/system_stm32f7xx.c ****   */
+ 151:Src/system_stm32f7xx.c **** void SystemInit(void)
+ 152:Src/system_stm32f7xx.c **** {
+  28              		.loc 1 152 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 153:Src/system_stm32f7xx.c ****   /* FPU settings ------------------------------------------------------------*/
+ 154:Src/system_stm32f7xx.c **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 155:Src/system_stm32f7xx.c ****   SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+  33              		.loc 1 155 3 view .LVU1
+  34              		.loc 1 155 6 is_stmt 0 view .LVU2
+  35 0000 034A     		ldr	r2, .L2
+  36 0002 D2F88830 		ldr	r3, [r2, #136]
+  37              		.loc 1 155 14 view .LVU3
+  38 0006 43F47003 		orr	r3, r3, #15728640
+  39 000a C2F88830 		str	r3, [r2, #136]
+ 156:Src/system_stm32f7xx.c **** #endif
+ 157:Src/system_stm32f7xx.c **** 
+ 158:Src/system_stm32f7xx.c ****   /* Configure the Vector Table location -------------------------------------*/
+ 159:Src/system_stm32f7xx.c **** #if defined(USER_VECT_TAB_ADDRESS)
+ 160:Src/system_stm32f7xx.c ****   SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM 
+ 161:Src/system_stm32f7xx.c **** #endif /* USER_VECT_TAB_ADDRESS */
+ 162:Src/system_stm32f7xx.c **** }
+  40              		.loc 1 162 1 view .LVU4
+  41 000e 7047     		bx	lr
+  42              	.L3:
+  43              		.align	2
+  44              	.L2:
+  45 0010 00ED00E0 		.word	-536810240
+  46              		.cfi_endproc
+  47              	.LFE141:
+  49              		.section	.text.SystemCoreClockUpdate,"ax",%progbits
+  50              		.align	1
+  51              		.global	SystemCoreClockUpdate
+  52              		.syntax unified
+  53              		.thumb
+  54              		.thumb_func
+  56              	SystemCoreClockUpdate:
+  57              	.LFB142:
+ 163:Src/system_stm32f7xx.c **** 
+ 164:Src/system_stm32f7xx.c **** /**
+ 165:Src/system_stm32f7xx.c ****    * @brief  Update SystemCoreClock variable according to Clock Register Values.
+ 166:Src/system_stm32f7xx.c ****   *         The SystemCoreClock variable contains the core clock (HCLK), it can
+ 167:Src/system_stm32f7xx.c ****   *         be used by the user application to setup the SysTick timer or configure
+ 168:Src/system_stm32f7xx.c ****   *         other parameters.
+ 169:Src/system_stm32f7xx.c ****   *           
+ 170:Src/system_stm32f7xx.c ****   * @note   Each time the core clock (HCLK) changes, this function must be called
+ 171:Src/system_stm32f7xx.c ****   *         to update SystemCoreClock variable value. Otherwise, any configuration
+ 172:Src/system_stm32f7xx.c ****   *         based on this variable will be incorrect.         
+ 173:Src/system_stm32f7xx.c ****   *     
+ 174:Src/system_stm32f7xx.c ****   * @note   - The system frequency computed by this function is not the real 
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 5
+
+
+ 175:Src/system_stm32f7xx.c ****   *           frequency in the chip. It is calculated based on the predefined 
+ 176:Src/system_stm32f7xx.c ****   *           constant and the selected clock source:
+ 177:Src/system_stm32f7xx.c ****   *             
+ 178:Src/system_stm32f7xx.c ****   *           - If SYSCLK source is HSI, SystemCoreClock will contain the HSI_VALUE(*)
+ 179:Src/system_stm32f7xx.c ****   *                                              
+ 180:Src/system_stm32f7xx.c ****   *           - If SYSCLK source is HSE, SystemCoreClock will contain the HSE_VALUE(**)
+ 181:Src/system_stm32f7xx.c ****   *                          
+ 182:Src/system_stm32f7xx.c ****   *           - If SYSCLK source is PLL, SystemCoreClock will contain the HSE_VALUE(**) 
+ 183:Src/system_stm32f7xx.c ****   *             or HSI_VALUE(*) multiplied/divided by the PLL factors.
+ 184:Src/system_stm32f7xx.c ****   *         
+ 185:Src/system_stm32f7xx.c ****   *         (*) HSI_VALUE is a constant defined in stm32f7xx_hal_conf.h file (default value
+ 186:Src/system_stm32f7xx.c ****   *             16 MHz) but the real value may vary depending on the variations
+ 187:Src/system_stm32f7xx.c ****   *             in voltage and temperature.   
+ 188:Src/system_stm32f7xx.c ****   *    
+ 189:Src/system_stm32f7xx.c ****   *         (**) HSE_VALUE is a constant defined in stm32f7xx_hal_conf.h file (default value
+ 190:Src/system_stm32f7xx.c ****   *              25 MHz), user has to ensure that HSE_VALUE is same as the real
+ 191:Src/system_stm32f7xx.c ****   *              frequency of the crystal used. Otherwise, this function may
+ 192:Src/system_stm32f7xx.c ****   *              have wrong result.
+ 193:Src/system_stm32f7xx.c ****   *                
+ 194:Src/system_stm32f7xx.c ****   *         - The result of this function could be not correct when using fractional
+ 195:Src/system_stm32f7xx.c ****   *           value for HSE crystal.
+ 196:Src/system_stm32f7xx.c ****   *     
+ 197:Src/system_stm32f7xx.c ****   * @param  None
+ 198:Src/system_stm32f7xx.c ****   * @retval None
+ 199:Src/system_stm32f7xx.c ****   */
+ 200:Src/system_stm32f7xx.c **** void SystemCoreClockUpdate(void)
+ 201:Src/system_stm32f7xx.c **** {
+  58              		.loc 1 201 1 is_stmt 1 view -0
+  59              		.cfi_startproc
+  60              		@ args = 0, pretend = 0, frame = 0
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62              		@ link register save eliminated.
+ 202:Src/system_stm32f7xx.c ****   uint32_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+  63              		.loc 1 202 3 view .LVU6
+  64              	.LVL0:
+ 203:Src/system_stm32f7xx.c ****   
+ 204:Src/system_stm32f7xx.c ****   /* Get SYSCLK source -------------------------------------------------------*/
+ 205:Src/system_stm32f7xx.c ****   tmp = RCC->CFGR & RCC_CFGR_SWS;
+  65              		.loc 1 205 3 view .LVU7
+  66              		.loc 1 205 12 is_stmt 0 view .LVU8
+  67 0000 224B     		ldr	r3, .L11
+  68 0002 9B68     		ldr	r3, [r3, #8]
+  69              		.loc 1 205 7 view .LVU9
+  70 0004 03F00C03 		and	r3, r3, #12
+  71              	.LVL1:
+ 206:Src/system_stm32f7xx.c **** 
+ 207:Src/system_stm32f7xx.c ****   switch (tmp)
+  72              		.loc 1 207 3 is_stmt 1 view .LVU10
+  73 0008 042B     		cmp	r3, #4
+  74 000a 11D0     		beq	.L5
+  75 000c 082B     		cmp	r3, #8
+  76 000e 13D0     		beq	.L6
+  77 0010 002B     		cmp	r3, #0
+  78 0012 37D1     		bne	.L7
+ 208:Src/system_stm32f7xx.c ****   {
+ 209:Src/system_stm32f7xx.c ****     case 0x00:  /* HSI used as system clock source */
+ 210:Src/system_stm32f7xx.c ****       SystemCoreClock = HSI_VALUE;
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 6
+
+
+  79              		.loc 1 210 7 view .LVU11
+  80              		.loc 1 210 23 is_stmt 0 view .LVU12
+  81 0014 1E4B     		ldr	r3, .L11+4
+  82              	.LVL2:
+  83              		.loc 1 210 23 view .LVU13
+  84 0016 1F4A     		ldr	r2, .L11+8
+  85 0018 1A60     		str	r2, [r3]
+ 211:Src/system_stm32f7xx.c ****       break;
+  86              		.loc 1 211 7 is_stmt 1 view .LVU14
+  87              	.LVL3:
+  88              	.L8:
+ 212:Src/system_stm32f7xx.c ****     case 0x04:  /* HSE used as system clock source */
+ 213:Src/system_stm32f7xx.c ****       SystemCoreClock = HSE_VALUE;
+ 214:Src/system_stm32f7xx.c ****       break;
+ 215:Src/system_stm32f7xx.c ****     case 0x08:  /* PLL used as system clock source */
+ 216:Src/system_stm32f7xx.c **** 
+ 217:Src/system_stm32f7xx.c ****       /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N
+ 218:Src/system_stm32f7xx.c ****          SYSCLK = PLL_VCO / PLL_P
+ 219:Src/system_stm32f7xx.c ****          */    
+ 220:Src/system_stm32f7xx.c ****       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+ 221:Src/system_stm32f7xx.c ****       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+ 222:Src/system_stm32f7xx.c ****       
+ 223:Src/system_stm32f7xx.c ****       if (pllsource != 0)
+ 224:Src/system_stm32f7xx.c ****       {
+ 225:Src/system_stm32f7xx.c ****         /* HSE used as PLL clock source */
+ 226:Src/system_stm32f7xx.c ****         pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+ 227:Src/system_stm32f7xx.c ****       }
+ 228:Src/system_stm32f7xx.c ****       else
+ 229:Src/system_stm32f7xx.c ****       {
+ 230:Src/system_stm32f7xx.c ****         /* HSI used as PLL clock source */
+ 231:Src/system_stm32f7xx.c ****         pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
+ 232:Src/system_stm32f7xx.c ****       }
+ 233:Src/system_stm32f7xx.c **** 
+ 234:Src/system_stm32f7xx.c ****       pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+ 235:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 236:Src/system_stm32f7xx.c ****       break;
+ 237:Src/system_stm32f7xx.c ****     default:
+ 238:Src/system_stm32f7xx.c ****       SystemCoreClock = HSI_VALUE;
+ 239:Src/system_stm32f7xx.c ****       break;
+ 240:Src/system_stm32f7xx.c ****   }
+ 241:Src/system_stm32f7xx.c ****   /* Compute HCLK frequency --------------------------------------------------*/
+ 242:Src/system_stm32f7xx.c ****   /* Get HCLK prescaler */
+ 243:Src/system_stm32f7xx.c ****   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+  89              		.loc 1 243 3 view .LVU15
+  90              		.loc 1 243 28 is_stmt 0 view .LVU16
+  91 001a 1C4B     		ldr	r3, .L11
+  92 001c 9B68     		ldr	r3, [r3, #8]
+  93              		.loc 1 243 52 view .LVU17
+  94 001e C3F30313 		ubfx	r3, r3, #4, #4
+  95              		.loc 1 243 22 view .LVU18
+  96 0022 1D4A     		ldr	r2, .L11+12
+  97 0024 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+  98              	.LVL4:
+ 244:Src/system_stm32f7xx.c ****   /* HCLK frequency */
+ 245:Src/system_stm32f7xx.c ****   SystemCoreClock >>= tmp;
+  99              		.loc 1 245 3 is_stmt 1 view .LVU19
+ 100              		.loc 1 245 19 is_stmt 0 view .LVU20
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 7
+
+
+ 101 0026 1A4A     		ldr	r2, .L11+4
+ 102 0028 1368     		ldr	r3, [r2]
+ 103 002a CB40     		lsrs	r3, r3, r1
+ 104 002c 1360     		str	r3, [r2]
+ 246:Src/system_stm32f7xx.c **** }
+ 105              		.loc 1 246 1 view .LVU21
+ 106 002e 7047     		bx	lr
+ 107              	.LVL5:
+ 108              	.L5:
+ 213:Src/system_stm32f7xx.c ****       break;
+ 109              		.loc 1 213 7 is_stmt 1 view .LVU22
+ 213:Src/system_stm32f7xx.c ****       break;
+ 110              		.loc 1 213 23 is_stmt 0 view .LVU23
+ 111 0030 174B     		ldr	r3, .L11+4
+ 112              	.LVL6:
+ 213:Src/system_stm32f7xx.c ****       break;
+ 113              		.loc 1 213 23 view .LVU24
+ 114 0032 1A4A     		ldr	r2, .L11+16
+ 115 0034 1A60     		str	r2, [r3]
+ 214:Src/system_stm32f7xx.c ****     case 0x08:  /* PLL used as system clock source */
+ 116              		.loc 1 214 7 is_stmt 1 view .LVU25
+ 117 0036 F0E7     		b	.L8
+ 118              	.LVL7:
+ 119              	.L6:
+ 220:Src/system_stm32f7xx.c ****       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+ 120              		.loc 1 220 7 view .LVU26
+ 220:Src/system_stm32f7xx.c ****       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+ 121              		.loc 1 220 23 is_stmt 0 view .LVU27
+ 122 0038 144B     		ldr	r3, .L11
+ 123              	.LVL8:
+ 220:Src/system_stm32f7xx.c ****       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+ 124              		.loc 1 220 23 view .LVU28
+ 125 003a 5968     		ldr	r1, [r3, #4]
+ 126              	.LVL9:
+ 221:Src/system_stm32f7xx.c ****       
+ 127              		.loc 1 221 7 is_stmt 1 view .LVU29
+ 221:Src/system_stm32f7xx.c ****       
+ 128              		.loc 1 221 17 is_stmt 0 view .LVU30
+ 129 003c 5A68     		ldr	r2, [r3, #4]
+ 221:Src/system_stm32f7xx.c ****       
+ 130              		.loc 1 221 12 view .LVU31
+ 131 003e 02F03F02 		and	r2, r2, #63
+ 132              	.LVL10:
+ 223:Src/system_stm32f7xx.c ****       {
+ 133              		.loc 1 223 7 is_stmt 1 view .LVU32
+ 223:Src/system_stm32f7xx.c ****       {
+ 134              		.loc 1 223 10 is_stmt 0 view .LVU33
+ 135 0042 11F4800F 		tst	r1, #4194304
+ 136 0046 13D0     		beq	.L9
+ 226:Src/system_stm32f7xx.c ****       }
+ 137              		.loc 1 226 9 is_stmt 1 view .LVU34
+ 226:Src/system_stm32f7xx.c ****       }
+ 138              		.loc 1 226 29 is_stmt 0 view .LVU35
+ 139 0048 144B     		ldr	r3, .L11+16
+ 140 004a B3FBF2F3 		udiv	r3, r3, r2
+ 226:Src/system_stm32f7xx.c ****       }
+ 141              		.loc 1 226 44 view .LVU36
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 8
+
+
+ 142 004e 0F4A     		ldr	r2, .L11
+ 143              	.LVL11:
+ 226:Src/system_stm32f7xx.c ****       }
+ 144              		.loc 1 226 44 view .LVU37
+ 145 0050 5268     		ldr	r2, [r2, #4]
+ 226:Src/system_stm32f7xx.c ****       }
+ 146              		.loc 1 226 74 view .LVU38
+ 147 0052 C2F38812 		ubfx	r2, r2, #6, #9
+ 226:Src/system_stm32f7xx.c ****       }
+ 148              		.loc 1 226 16 view .LVU39
+ 149 0056 02FB03F3 		mul	r3, r2, r3
+ 150              	.LVL12:
+ 151              	.L10:
+ 234:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 152              		.loc 1 234 7 is_stmt 1 view .LVU40
+ 234:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 153              		.loc 1 234 20 is_stmt 0 view .LVU41
+ 154 005a 0C4A     		ldr	r2, .L11
+ 155 005c 5268     		ldr	r2, [r2, #4]
+ 234:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 156              		.loc 1 234 50 view .LVU42
+ 157 005e C2F30142 		ubfx	r2, r2, #16, #2
+ 234:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 158              		.loc 1 234 56 view .LVU43
+ 159 0062 0132     		adds	r2, r2, #1
+ 234:Src/system_stm32f7xx.c ****       SystemCoreClock = pllvco/pllp;
+ 160              		.loc 1 234 12 view .LVU44
+ 161 0064 5200     		lsls	r2, r2, #1
+ 162              	.LVL13:
+ 235:Src/system_stm32f7xx.c ****       break;
+ 163              		.loc 1 235 7 is_stmt 1 view .LVU45
+ 235:Src/system_stm32f7xx.c ****       break;
+ 164              		.loc 1 235 31 is_stmt 0 view .LVU46
+ 165 0066 B3FBF2F3 		udiv	r3, r3, r2
+ 166              	.LVL14:
+ 235:Src/system_stm32f7xx.c ****       break;
+ 167              		.loc 1 235 23 view .LVU47
+ 168 006a 094A     		ldr	r2, .L11+4
+ 169              	.LVL15:
+ 235:Src/system_stm32f7xx.c ****       break;
+ 170              		.loc 1 235 23 view .LVU48
+ 171 006c 1360     		str	r3, [r2]
+ 236:Src/system_stm32f7xx.c ****     default:
+ 172              		.loc 1 236 7 is_stmt 1 view .LVU49
+ 173 006e D4E7     		b	.L8
+ 174              	.LVL16:
+ 175              	.L9:
+ 231:Src/system_stm32f7xx.c ****       }
+ 176              		.loc 1 231 9 view .LVU50
+ 231:Src/system_stm32f7xx.c ****       }
+ 177              		.loc 1 231 29 is_stmt 0 view .LVU51
+ 178 0070 084B     		ldr	r3, .L11+8
+ 179 0072 B3FBF2F3 		udiv	r3, r3, r2
+ 231:Src/system_stm32f7xx.c ****       }
+ 180              		.loc 1 231 44 view .LVU52
+ 181 0076 054A     		ldr	r2, .L11
+ 182              	.LVL17:
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 9
+
+
+ 231:Src/system_stm32f7xx.c ****       }
+ 183              		.loc 1 231 44 view .LVU53
+ 184 0078 5268     		ldr	r2, [r2, #4]
+ 231:Src/system_stm32f7xx.c ****       }
+ 185              		.loc 1 231 74 view .LVU54
+ 186 007a C2F38812 		ubfx	r2, r2, #6, #9
+ 231:Src/system_stm32f7xx.c ****       }
+ 187              		.loc 1 231 16 view .LVU55
+ 188 007e 02FB03F3 		mul	r3, r2, r3
+ 189              	.LVL18:
+ 231:Src/system_stm32f7xx.c ****       }
+ 190              		.loc 1 231 16 view .LVU56
+ 191 0082 EAE7     		b	.L10
+ 192              	.LVL19:
+ 193              	.L7:
+ 238:Src/system_stm32f7xx.c ****       break;
+ 194              		.loc 1 238 7 is_stmt 1 view .LVU57
+ 238:Src/system_stm32f7xx.c ****       break;
+ 195              		.loc 1 238 23 is_stmt 0 view .LVU58
+ 196 0084 024B     		ldr	r3, .L11+4
+ 197              	.LVL20:
+ 238:Src/system_stm32f7xx.c ****       break;
+ 198              		.loc 1 238 23 view .LVU59
+ 199 0086 034A     		ldr	r2, .L11+8
+ 200 0088 1A60     		str	r2, [r3]
+ 239:Src/system_stm32f7xx.c ****   }
+ 201              		.loc 1 239 7 is_stmt 1 view .LVU60
+ 202 008a C6E7     		b	.L8
+ 203              	.L12:
+ 204              		.align	2
+ 205              	.L11:
+ 206 008c 00380240 		.word	1073887232
+ 207 0090 00000000 		.word	SystemCoreClock
+ 208 0094 0024F400 		.word	16000000
+ 209 0098 00000000 		.word	AHBPrescTable
+ 210 009c 00127A00 		.word	8000000
+ 211              		.cfi_endproc
+ 212              	.LFE142:
+ 214              		.global	APBPrescTable
+ 215              		.section	.rodata.APBPrescTable,"a"
+ 216              		.align	2
+ 219              	APBPrescTable:
+ 220 0000 00000000 		.ascii	"\000\000\000\000\001\002\003\004"
+ 220      01020304 
+ 221              		.global	AHBPrescTable
+ 222              		.section	.rodata.AHBPrescTable,"a"
+ 223              		.align	2
+ 226              	AHBPrescTable:
+ 227 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000\001\002\003\004\006"
+ 227      00000000 
+ 227      01020304 
+ 227      06
+ 228 000d 070809   		.ascii	"\007\010\011"
+ 229              		.global	SystemCoreClock
+ 230              		.section	.data.SystemCoreClock,"aw"
+ 231              		.align	2
+ 234              	SystemCoreClock:
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 10
+
+
+ 235 0000 0024F400 		.word	16000000
+ 236              		.text
+ 237              	.Letext0:
+ 238              		.file 2 "/Users/isaiah.beckermayer/Library/Application Support/Cursor/User/globalStorage/bmd.stm32
+ 239              		.file 3 "/Users/isaiah.beckermayer/Library/Application Support/Cursor/User/globalStorage/bmd.stm32
+ 240              		.file 4 "Drivers/CMSIS/Include/core_cm7.h"
+ 241              		.file 5 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h"
+ 242              		.file 6 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h"
+ARM GAS  /var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 system_stm32f7xx.c
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:20     .text.SystemInit:00000000 $t
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:26     .text.SystemInit:00000000 SystemInit
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:45     .text.SystemInit:00000010 $d
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:50     .text.SystemCoreClockUpdate:00000000 $t
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:56     .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:206    .text.SystemCoreClockUpdate:0000008c $d
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:234    .data.SystemCoreClock:00000000 SystemCoreClock
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:226    .rodata.AHBPrescTable:00000000 AHBPrescTable
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:219    .rodata.APBPrescTable:00000000 APBPrescTable
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:216    .rodata.APBPrescTable:00000000 $d
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:223    .rodata.AHBPrescTable:00000000 $d
+/var/folders/8d/8djywmp92nx9cg9c5pcw0px00000gn/T//cc2UcStf.s:231    .data.SystemCoreClock:00000000 $d
+
+NO UNDEFINED SYMBOLS
